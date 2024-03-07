@@ -1,19 +1,18 @@
+enum Types{
+   one = "pdf",
+   two = "word"
+}
+
 export async function getReportContent(type: string): Promise<any> {
     try{
 
-        var content;
-
-        // form.compare(type)
-
-        if(type === "pdf"){
-            let pdf = PDFReport
+        switch(type){
+            case Types.one:
+                return new PDFReport();
+            case Types.two:
+                return new WordReport();
         }
 
-        if(type === "word"){
-            content = "word file"
-        }
-
-            return content
 
     }catch(error){
         throw error
@@ -28,7 +27,7 @@ interface IReportService{
 class PDFReport implements IReportService{
 
     compare(type: string){
-        return type === "pdf"
+        return type === Types.one
     }
 
     getReportContent(): string {
@@ -36,10 +35,11 @@ class PDFReport implements IReportService{
     }
 
 }
+
 class WordReport implements IReportService{
 
     compare(type: string){
-        return type === "word"
+        return type === Types.two
     }
 
     getReportContent(): string {
