@@ -1,16 +1,16 @@
 enum Types{
-   one = "pdf",
-   two = "word"
+   "pdf" = 1,
+   "word" = 2
 }
 
 export async function getReportContent(type: string): Promise<any> {
     try{
 
         switch(type){
-            case Types.one:
-                return new PDFReport();
-            case Types.two:
-                return new WordReport();
+            case Types[1]:
+                return new PDFReport().getReportContent();
+            case Types[2]:
+                return new WordReport().getReportContent();
         }
 
 
@@ -27,7 +27,7 @@ interface IReportService{
 class PDFReport implements IReportService{
 
     compare(type: string){
-        return type === Types.one
+        return type === Types[1]
     }
 
     getReportContent(): string {
@@ -39,7 +39,7 @@ class PDFReport implements IReportService{
 class WordReport implements IReportService{
 
     compare(type: string){
-        return type === Types.two
+        return type === Types[2]
     }
 
     getReportContent(): string {
