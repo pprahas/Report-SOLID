@@ -3,22 +3,6 @@ enum Types{
    "word" = 2
 }
 
-export async function getReportContent(type: string): Promise<any> {
-    try{
-
-        switch(type){
-            case Types[1]:
-                return new PDFReport().getReportContent();
-            case Types[2]:
-                return new WordReport().getReportContent();
-        }
-
-
-    }catch(error){
-        throw error
-    }
-}
-
 interface IReportService{
     getReportContent(): string;
     compare(type: string) : boolean
@@ -47,3 +31,44 @@ class WordReport implements IReportService{
     }
 
 }
+
+
+// Creating a mapping of type strings to their corresponding classes.
+const reportTypeMap: Record<string, new () => IReportService> = {
+    "pdf": PDFReport,
+    "word": WordReport,
+};
+
+// Helper function to get the enum key by value
+function getTypeKeyByValue(value: string): Types | undefined {
+    const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
+    console.log("the entries are", entries)
+    for (const [key, val] of entries) {
+        if (key.toLowerCase() === value.toLowerCase()) {
+            return Types[key as keyof typeof Types];
+        }
+    }
+    return undefined;
+}
+
+export async function getReportContent(type: string): Promise<string> {
+    try {
+        const typeKey = getTypeKeyByValue(type);
+        console.log("typekey is", typeKey)
+        if (typeKey === undefined) {
+            throw new Error("Invalid report type");
+        }
+        
+        const reportClass = reportTypeMap[type.toLowerCase()];
+        console.log("report type map", reportTypeMap[type.toLowerCase()])
+        if (!reportClass) {
+            throw new Error("Invalid report type");
+        }
+        const reportInstance = new reportClass();
+        console.log("the report instance is", reportInstance)
+        return reportInstance.getReportContent();
+    } catch (error) {
+        throw error;
+    }
+}
+
