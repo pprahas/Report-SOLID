@@ -9,7 +9,7 @@ class ReportRoutes {
   }
 
   initializeRoutes() {
-    this.router.post("/get", getReport);
+    this.router.get("/get", getReport);
   }
 }
 
