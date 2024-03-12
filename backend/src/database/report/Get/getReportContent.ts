@@ -1,3 +1,5 @@
+import { error } from "console";
+
 enum Types{
    "pdf" = 1,
    "word" = 2
@@ -48,25 +50,29 @@ function getTypeKeyByValue(value: string): Types | undefined {
             return Types[key as keyof typeof Types];
         }
     }
+
     return undefined;
 }
 
-export async function getReportContent(type: string): Promise<string> {
+export async function getReportContent(type: string): Promise<{ content?: string, error?: string }> {
     try {
         const typeKey = getTypeKeyByValue(type);
         console.log("typekey is", typeKey)
         if (typeKey === undefined) {
-            throw new Error("Invalid report type");
+
+            // throw new Error("Invalid report type");
+            return {error: "Invalid report type"};
+
         }
         
         const reportClass = reportTypeMap[type.toLowerCase()];
         console.log("report type map", reportTypeMap[type.toLowerCase()])
         if (!reportClass) {
-            throw new Error("Invalid report type");
+            return {error: "Invalid report type"};
         }
         const reportInstance = new reportClass();
         console.log("the report instance is", reportInstance)
-        return reportInstance.getReportContent();
+        return {content: reportInstance.getReportContent()}
     } catch (error) {
         throw error;
     }

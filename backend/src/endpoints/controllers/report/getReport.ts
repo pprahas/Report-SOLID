@@ -4,11 +4,20 @@ export async function getReport(req: Request, res: Response): Promise<any>{
     
     try{
 
-        const type = req.body.type
+        const type = req.query.type as string;
 
-        let content = await getReportContent(type)
+         if (!type) {
+            return res.status(400).send("Report type is required as a query parameter.");
+        }
 
-        return res.status(200).send(content)
+        let result = await getReportContent(type)
+
+        if(result.error){
+            return res.status(400).send(result.error);
+
+        }
+
+        return res.status(200).send(result.content)
 
     }catch(error){
         throw error
