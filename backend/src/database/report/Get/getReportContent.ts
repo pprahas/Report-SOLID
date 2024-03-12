@@ -35,13 +35,13 @@ class WordReport implements IReportService{
 }
 
 
-// Creating a mapping of type strings to their corresponding classes.
+
 const reportTypeMap: Record<string, new () => IReportService> = {
     "pdf": PDFReport,
     "word": WordReport,
 };
 
-// Helper function to get the enum key by value
+
 function getTypeKeyByValue(value: string): Types | undefined {
     const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
     console.log("the entries are", entries)
