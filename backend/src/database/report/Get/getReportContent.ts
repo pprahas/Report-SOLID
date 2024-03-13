@@ -1,4 +1,4 @@
-import { ReportGeneratorFactory } from "../../../domain/IReportService";
+import { ReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
 
 export class ReportService {
   private reportType: string;

@@ -1,31 +1,7 @@
+import { IReportGenerator, WordReport, PDFReport } from "./IReportGenerator";
 enum Types {
   "pdf" = 1,
   "word" = 2,
-}
-
-interface IReportGenerator {
-  reportGenerate(): string;
-  compare(type: string): boolean;
-}
-
-class PDFReport implements IReportGenerator {
-  compare(type: string) {
-    return type === Types[1];
-  }
-
-  reportGenerate(): string {
-    return "pdf file";
-  }
-}
-
-class WordReport implements IReportGenerator {
-  compare(type: string) {
-    return type === Types[2];
-  }
-
-  reportGenerate(): string {
-    return "word file";
-  }
 }
 
 interface IReportGeneratorFactory {
