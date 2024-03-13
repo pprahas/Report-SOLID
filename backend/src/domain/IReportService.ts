@@ -32,19 +32,57 @@ class WordReport implements IReportGenerator{
 
 }
 
-export const reportTypeMap: Record<string, new () => IReportGenerator> = {
-    [Types[1]]: PDFReport,
-    [Types[2]]: WordReport,
-};
+interface IReportGeneratorFactory {
+  reportTypeMap: Record<string, new () => IReportGenerator>;
+  getTypeKeyByValue(value: string): Types | undefined;
+  create():{content?:string; error?: string};
+}
 
-export function getTypeKeyByValue(value: string): Types | undefined {
-    const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
-    console.log("the entries are", entries)
-    for (const [key, val] of entries) {
-        if (key.toLowerCase() === value.toLowerCase()) {
-            return Types[key as keyof typeof Types];
+export class ReportGeneratorFactory implements IReportGeneratorFactory{
+
+    private reportType : string;
+
+        constructor(reportType: string){
+            this.reportType = reportType
+        }
+
+    reportTypeMap: Record<string, new () => IReportGenerator> = {
+        [Types[1]]: PDFReport,
+        [Types[2]]: WordReport,
+    }
+
+    getTypeKeyByValue(value: string): Types | undefined {
+        const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
+        console.log("the entries are", entries)
+        for (const [key, val] of entries) {
+            if (key.toLowerCase() === value.toLowerCase()) {
+                return Types[key as keyof typeof Types];
         }
     }
 
-    return undefined;
+        return undefined;
+    }
+
+    create(): { content?: string; error?: string }{
+
+
+        const typeKey = this.getTypeKeyByValue(this.reportType);
+        if (typeKey === undefined) {
+
+            // throw new Error("Invalid report type");
+            return {error: "Invalid report type"};
+
+        }
+
+        const reportClass = this.reportTypeMap[this.reportType.toLowerCase()];
+
+        if (!reportClass) {
+            return {error: "Invalid report type"};
+        }
+
+
+        const reportInstance = new reportClass();
+
+        return {content: reportInstance.reportGenerate()}
+    }
 }

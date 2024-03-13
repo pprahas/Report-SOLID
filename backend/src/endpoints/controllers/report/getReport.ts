@@ -12,12 +12,12 @@ export async function getReport(req: Request, res: Response): Promise<any>{
 
         let result = await exportReport(type)
 
-        if(result.error){
-            return res.status(400).send(result.error);
+        if(result){
+            return res.status(400).send(result);
 
         }
 
-        return res.status(200).send(result.content)
+        return res.status(200).send(result)
 
     }catch(error){
         throw error
