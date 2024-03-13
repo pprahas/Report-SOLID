@@ -1,58 +1,25 @@
-import { error } from "console";
+import { reportTypeMap, getTypeKeyByValue } from "../../../domain/IReportService";
 
-enum Types{
-   "pdf" = 1,
-   "word" = 2
-}
+export async function exportReport(type: string): Promise<{ content?: string, error?: string }> {
+    try {
+        const typeKey = getTypeKeyByValue(type);
+        console.log("typekey is", typeKey)
+        if (typeKey === undefined) {
 
-interface IReportService{
-    getReportContent(): string;
-    compare(type: string) : boolean
-}
+            // throw new Error("Invalid report type");
+            return {error: "Invalid report type"};
 
-class PDFReport implements IReportService{
-
-    compare(type: string){
-        return type === Types[1]
-    }
-
-    getReportContent(): string {
-        return "pdf file"
-    }
-
-}
-
-class WordReport implements IReportService{
-
-    compare(type: string){
-        return type === Types[2]
-    }
-
-    getReportContent(): string {
-        return "word file"
-    }
-
-}
-
-
-
-export const reportTypeMap: Record<string, new () => IReportService> = {
-    "pdf": PDFReport,
-    "word": WordReport,
-};
-
-
-export function getTypeKeyByValue(value: string): Types | undefined {
-    const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
-    console.log("the entries are", entries)
-    for (const [key, val] of entries) {
-        if (key.toLowerCase() === value.toLowerCase()) {
-            return Types[key as keyof typeof Types];
         }
+        
+        const reportClass = reportTypeMap[type.toLowerCase()];
+        console.log("report type map", reportTypeMap[type.toLowerCase()])
+        if (!reportClass) {
+            return {error: "Invalid report type"};
+        }
+        const reportInstance = new reportClass();
+        console.log("the report instance is", reportInstance)
+        return {content: reportInstance.getReportContent()}
+    } catch (error) {
+        throw error;
     }
-
-    return undefined;
 }
-
-
-

@@ -1,43 +1,50 @@
-// class ReportService {
-//     async function exportReport(type: string): Promise<any> {
-//     try{
+enum Types{
+   "pdf" = 1,
+   "word" = 2
+}
 
-//         switch(type){
-//             case Types[1]:
-//                 return new PDFReport().getReportContent();
-//             case Types[2]:
-//                 return new WordReport().getReportContent();
-//         }
+interface IReportService{
+    getReportContent(): string;
+    compare(type: string) : boolean
+}
 
+class PDFReport implements IReportService{
 
-//     }catch(error){
-//         throw error
-//     }
-// }
-// }
-
-import { reportTypeMap, getTypeKeyByValue } from "../database/report/Get/getReportContent";
-
-export async function exportReport(type: string): Promise<{ content?: string, error?: string }> {
-    try {
-        const typeKey = getTypeKeyByValue(type);
-        console.log("typekey is", typeKey)
-        if (typeKey === undefined) {
-
-            // throw new Error("Invalid report type");
-            return {error: "Invalid report type"};
-
-        }
-        
-        const reportClass = reportTypeMap[type.toLowerCase()];
-        console.log("report type map", reportTypeMap[type.toLowerCase()])
-        if (!reportClass) {
-            return {error: "Invalid report type"};
-        }
-        const reportInstance = new reportClass();
-        console.log("the report instance is", reportInstance)
-        return {content: reportInstance.getReportContent()}
-    } catch (error) {
-        throw error;
+    compare(type: string){
+        return type === Types[1]
     }
+
+    getReportContent(): string {
+        return "pdf file"
+    }
+
+}
+
+class WordReport implements IReportService{
+
+    compare(type: string){
+        return type === Types[2]
+    }
+
+    getReportContent(): string {
+        return "word file"
+    }
+
+}
+
+export const reportTypeMap: Record<string, new () => IReportService> = {
+    [Types[1]]: PDFReport,
+    [Types[2]]: WordReport,
+};
+
+export function getTypeKeyByValue(value: string): Types | undefined {
+    const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
+    console.log("the entries are", entries)
+    for (const [key, val] of entries) {
+        if (key.toLowerCase() === value.toLowerCase()) {
+            return Types[key as keyof typeof Types];
+        }
+    }
+
+    return undefined;
 }

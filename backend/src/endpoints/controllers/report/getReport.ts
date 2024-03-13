@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-// import { export } from "../../../database/report/Get/getReportContent";
-import { exportReport } from "../../../domain/IReportService";
+import { exportReport } from "../../../database/report/Get/getReportContent";
 export async function getReport(req: Request, res: Response): Promise<any>{
     
     try{
