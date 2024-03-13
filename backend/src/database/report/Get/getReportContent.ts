@@ -36,13 +36,13 @@ class WordReport implements IReportService{
 
 
 
-const reportTypeMap: Record<string, new () => IReportService> = {
+export const reportTypeMap: Record<string, new () => IReportService> = {
     "pdf": PDFReport,
     "word": WordReport,
 };
 
 
-function getTypeKeyByValue(value: string): Types | undefined {
+export function getTypeKeyByValue(value: string): Types | undefined {
     const entries = Object.entries(Types).filter(([key, val]) => typeof val === "number");
     console.log("the entries are", entries)
     for (const [key, val] of entries) {
@@ -54,27 +54,5 @@ function getTypeKeyByValue(value: string): Types | undefined {
     return undefined;
 }
 
-export async function getReportContent(type: string): Promise<{ content?: string, error?: string }> {
-    try {
-        const typeKey = getTypeKeyByValue(type);
-        console.log("typekey is", typeKey)
-        if (typeKey === undefined) {
 
-            // throw new Error("Invalid report type");
-            return {error: "Invalid report type"};
-
-        }
-        
-        const reportClass = reportTypeMap[type.toLowerCase()];
-        console.log("report type map", reportTypeMap[type.toLowerCase()])
-        if (!reportClass) {
-            return {error: "Invalid report type"};
-        }
-        const reportInstance = new reportClass();
-        console.log("the report instance is", reportInstance)
-        return {content: reportInstance.getReportContent()}
-    } catch (error) {
-        throw error;
-    }
-}
 

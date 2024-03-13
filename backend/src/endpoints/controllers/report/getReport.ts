@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getReportContent } from "../../../database/report/Get/getReportContent";
+// import { export } from "../../../database/report/Get/getReportContent";
+import { exportReport } from "../../../domain/IReportService";
 export async function getReport(req: Request, res: Response): Promise<any>{
     
     try{
@@ -10,7 +11,7 @@ export async function getReport(req: Request, res: Response): Promise<any>{
             return res.status(400).send("Report type is required as a query parameter.");
         }
 
-        let result = await getReportContent(type)
+        let result = await exportReport(type)
 
         if(result.error){
             return res.status(400).send(result.error);
