@@ -3,36 +3,36 @@ enum Types{
    "word" = 2
 }
 
-interface IReportService{
-    getReportContent(): string;
+interface IReportGenerator{
+    reportGenerate(): string;
     compare(type: string) : boolean
 }
 
-class PDFReport implements IReportService{
+class PDFReport implements IReportGenerator{
 
     compare(type: string){
         return type === Types[1]
     }
 
-    getReportContent(): string {
+    reportGenerate(): string {
         return "pdf file"
     }
 
 }
 
-class WordReport implements IReportService{
+class WordReport implements IReportGenerator{
 
     compare(type: string){
         return type === Types[2]
     }
 
-    getReportContent(): string {
+    reportGenerate(): string {
         return "word file"
     }
 
 }
 
-export const reportTypeMap: Record<string, new () => IReportService> = {
+export const reportTypeMap: Record<string, new () => IReportGenerator> = {
     [Types[1]]: PDFReport,
     [Types[2]]: WordReport,
 };

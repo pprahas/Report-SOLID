@@ -18,7 +18,7 @@ export async function exportReport(type: string): Promise<{ content?: string, er
         }
         const reportInstance = new reportClass();
         console.log("the report instance is", reportInstance)
-        return {content: reportInstance.getReportContent()}
+        return {content: reportInstance.reportGenerate()}
     } catch (error) {
         throw error;
     }
