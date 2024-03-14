@@ -1,8 +1,9 @@
 import { Application } from "express";
-import reportRoutes from "./report/report"
+import "reflect-metadata";
+import reportRoutes from "./report/report";
 
-export default class Routes{
-    constructor(app: Application){
-        app.use("/report", reportRoutes)
-    }
+export default class Routes {
+  constructor(app: Application) {
+    app.use("/report", reportRoutes);
+  }
 }

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { ReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
+import { IReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
+import { myContainer } from "../../../../inversify.config";
 export async function getReport(req: Request, res: Response): Promise<any> {
   try {
     const type = req.query.type as string;
@@ -10,11 +11,13 @@ export async function getReport(req: Request, res: Response): Promise<any> {
         .send("Report type is required as a query parameter.");
     }
 
-    let reportFactory = new ReportGeneratorFactory();
+    const reportFactory = myContainer.get<IReportGeneratorFactory>(
+      "ReportGeneratorFactory"
+    );
 
-    let reportGenerator = reportFactory.create(type);
+    const reportGenerator = reportFactory.create(type);
 
-    let report = reportGenerator.reportGenerate();
+    const report = reportGenerator?.generate();
 
     return res.status(200).send(report);
   } catch (error) {
