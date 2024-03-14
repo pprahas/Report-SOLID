@@ -1,16 +1,15 @@
 import { Container } from "inversify";
-// import { TYPES } from "./src/domain/types";
-import {
-  IReportGenerator,
-  PDFReportGenerator,
-  UnsupportedReportGenerator,
-  WordReportGenerator,
-} from "./src/domain/IReportGenerator";
+import { PDFReportGenerator } from "./implementations/PDFReportGenerator";
+import { WordReportGenerator } from "./implementations/WordReportGenerator";
+import { UnsupportedReportGenerator } from "./implementations/UnsupportedReportGenerator";
 
 import {
+  IReportGenerator,
   IReportGeneratorFactory,
-  ReportGeneratorFactory,
-} from "./src/domain/IReportGeneratorFactory";
+  IReportService,
+} from "./domain/index";
+import { ReportGeneratorFactory } from "./implementations/ReportGeneratorFactory";
+import { ReportService } from "./implementations/ReportService";
 
 const myContainer = new Container();
 myContainer
@@ -29,5 +28,7 @@ myContainer
 myContainer
   .bind<IReportGeneratorFactory>("ReportGeneratorFactory")
   .to(ReportGeneratorFactory);
+
+myContainer.bind<IReportService>("ReportService").to(ReportService);
 
 export { myContainer };
