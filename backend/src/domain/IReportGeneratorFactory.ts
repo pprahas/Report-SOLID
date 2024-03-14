@@ -5,6 +5,7 @@ enum Types {
 }
 
 interface IReportGeneratorFactory {
+  //TODO
   reportTypeMap: Record<string, new () => IReportGenerator>;
   getTypeKeyByValue(value: string): Types | undefined;
   create(): { content?: string; error?: string; code: number };
@@ -13,6 +14,7 @@ interface IReportGeneratorFactory {
 export class ReportGeneratorFactory implements IReportGeneratorFactory {
   private reportType: string;
 
+  //TODO - put nothing in the constructor
   constructor(reportType: string) {
     this.reportType = reportType;
   }
