@@ -1,4 +1,8 @@
-import { IReportGenerator, WordReport, PDFReport } from "./IReportGenerator";
+import {
+  IReportGenerator,
+  WordReportGenerator,
+  PDFReportGenerator,
+} from "./IReportGenerator";
 enum Types {
   "pdf" = 1,
   "word" = 2,
@@ -6,52 +10,35 @@ enum Types {
 
 interface IReportGeneratorFactory {
   //TODO
-  reportTypeMap: Record<string, new () => IReportGenerator>;
-  getTypeKeyByValue(value: string): Types | undefined;
-  create(): { content?: string; error?: string; code: number };
+  // reportTypeMap: Record<Types, new () => IReportGenerator>;
+  create(value: string): IReportGenerator;
 }
 
 export class ReportGeneratorFactory implements IReportGeneratorFactory {
-  private reportType: string;
-
   //TODO - put nothing in the constructor
-  constructor(reportType: string) {
-    this.reportType = reportType;
-  }
+  constructor() {}
 
-  reportTypeMap: Record<string, new () => IReportGenerator> = {
-    [Types[1]]: PDFReport,
-    [Types[2]]: WordReport,
+  reportTypeMap: Record<Types, IReportGenerator> = {
+    [Types.pdf]: new PDFReportGenerator(),
+    [Types.word]: new WordReportGenerator(),
   };
 
-  getTypeKeyByValue(value: string): Types | undefined {
-    const entries = Object.entries(Types).filter(
-      ([key, val]) => typeof val === "number"
-    );
-    console.log("the entries are", entries);
-    for (const [key, val] of entries) {
-      if (key.toLowerCase() === value.toLowerCase()) {
-        return Types[key as keyof typeof Types];
-      }
-    }
+  create(type: string): IReportGenerator {
+    const typeEnum = Types[type as keyof typeof Types];
+    return this.reportTypeMap[typeEnum];
+    console.log(typeEnum);
 
-    return undefined;
-  }
+    // if (!typeEnum) {
+    //   return { error: "Invalid report type", code: 400 };
+    // }
 
-  create(): { content?: string; error?: string; code: number } {
-    const typeKey = this.getTypeKeyByValue(this.reportType);
-    if (typeKey === undefined) {
-      return { error: "Invalid report type", code: 400 };
-    }
+    // const ReportClass = this.reportTypeMap[typeEnum];
+    // console.log(ReportClass);
+    // if (!ReportClass) {
+    //   return { error: "Report type not supported", code: 400 };
+    // }
 
-    const reportClass = this.reportTypeMap[this.reportType.toLowerCase()];
-
-    if (!reportClass) {
-      return { error: "Invalid report type", code: 400 };
-    }
-
-    const reportInstance = new reportClass();
-
-    return { content: reportInstance.reportGenerate(), code: 200 };
+    // const reportInstance = new ReportClass();
+    // return { content: reportInstance.reportGenerate(), code: 200 };
   }
 }

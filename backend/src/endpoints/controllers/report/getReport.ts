@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ReportService } from "../../../database/report/Get/getReportContent";
+import { ReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
 export async function getReport(req: Request, res: Response): Promise<any> {
   try {
     const type = req.query.type as string;
@@ -10,11 +11,18 @@ export async function getReport(req: Request, res: Response): Promise<any> {
         .send("Report type is required as a query parameter.");
     }
 
-    let reportService = new ReportService(type);
+    // let reportService = new ReportService();
 
-    let result = reportService.exportReport();
+    var reportFactory = new ReportGeneratorFactory();
 
-    return res.status(result.code).send(result.content || result.error);
+    let reportGenerator = reportFactory.create(type);
+
+    let report = reportGenerator.reportGenerate();
+
+    // let result = reportService.exportReport(type);
+
+    return res.status(200).send(report);
+    // return res.status(result.code).send(result.content || result.error);
   } catch (error) {
     throw error;
   }

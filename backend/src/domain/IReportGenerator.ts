@@ -2,13 +2,13 @@ export interface IReportGenerator {
   reportGenerate(): string;
 }
 
-export class PDFReport implements IReportGenerator {
+export class PDFReportGenerator implements IReportGenerator {
   reportGenerate(): string {
     return "pdf file";
   }
 }
 
-export class WordReport implements IReportGenerator {
+export class WordReportGenerator implements IReportGenerator {
   reportGenerate(): string {
     return "word file";
   }

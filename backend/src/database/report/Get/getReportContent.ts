@@ -1,21 +1,17 @@
 import { ReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
 
 export class ReportService {
-  private reportType: string;
+  constructor() {}
 
-  constructor(reportType: string) {
-    this.reportType = reportType;
-  }
-
-  exportReport(): {
+  exportReport(type: string): {
     code: number;
     content?: string;
     error?: string;
   } {
     try {
-      const reportGeneratorFactor = new ReportGeneratorFactory(this.reportType);
+      const reportGeneratorFactor = new ReportGeneratorFactory();
 
-      return reportGeneratorFactor.create();
+      return reportGeneratorFactor.create(type);
     } catch (error) {
       throw error;
     }
