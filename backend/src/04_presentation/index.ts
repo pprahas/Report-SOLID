@@ -1,6 +1,6 @@
 import { Application } from "express";
 import "reflect-metadata";
-import reportRoutes from "./report/report";
+import reportRoutes from "./report";
 
 export default class Routes {
   constructor(app: Application) {

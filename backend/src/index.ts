@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import cors, { CorsOptions } from "cors";
-import Routes from "./endpoints/routes";
+import Routes from "./04_presentation";
 import dotenv from "dotenv";
 import path from "path";
 

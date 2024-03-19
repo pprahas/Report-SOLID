@@ -1,15 +1,15 @@
 import { Container } from "inversify";
-import { PDFReportGenerator } from "./implementations/PDFReportGenerator";
-import { WordReportGenerator } from "./implementations/WordReportGenerator";
-import { UnsupportedReportGenerator } from "./implementations/UnsupportedReportGenerator";
+import { PDFReportGenerator } from "./03_infrastructure/generators/PDFReportGenerator";
+import { WordReportGenerator } from "./03_infrastructure/generators/WordReportGenerator";
+import { UnsupportedReportGenerator } from "./03_infrastructure/generators/UnsupportedReportGenerator";
 
 import {
   IReportGenerator,
   IReportGeneratorFactory,
   IReportService,
 } from "./domain/index";
-import { ReportGeneratorFactory } from "./implementations/ReportGeneratorFactory";
-import { ReportService } from "./implementations/ReportService";
+import { ReportGeneratorFactory } from "./03_infrastructure/ReportGeneratorFactory";
+import { ReportService } from "./02_application/Reports/ReportService";
 
 const myContainer = new Container();
 myContainer

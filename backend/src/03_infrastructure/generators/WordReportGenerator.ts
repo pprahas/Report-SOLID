@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { IReportGenerator } from "../domain/IReportGenerator";
+import { IReportGenerator } from "../../02_application/common/IReportGenerator";
 @injectable()
 export class WordReportGenerator implements IReportGenerator {
   constructor() {}

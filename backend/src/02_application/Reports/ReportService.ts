@@ -1,8 +1,10 @@
-import { IReportGeneratorFactory } from "../domain/IReportGeneratorFactory";
-import { IReportService } from "../domain/IReportService";
-import { inject, injectable, named } from "inversify";
-import { ReportResponse } from "../models/ReportResponse";
+import { IReportGeneratorFactory } from "../common/IReportGeneratorFactory";
+import { inject, injectable } from "inversify";
+import { ReportResponse } from "../../models/ReportResponse";
 
+export interface IReportService {
+  generateReport(value: string): ReportResponse;
+}
 @injectable()
 // check for unsupported type here
 export class ReportService implements IReportService {

@@ -1,4 +1,4 @@
-export class ReportResult {
+export class Report {
   responseCode: number;
   content: string;
 

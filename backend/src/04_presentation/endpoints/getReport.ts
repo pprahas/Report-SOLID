@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { IReportService } from "../../../domain/IReportService";
-import { myContainer } from "../../../inversify.config";
+import { IReportService } from "../../../02_application/Interfaces/IReportService";
+import { myContainer } from "../../../../inversify.config";
 export async function getReport(req: Request, res: Response): Promise<any> {
   const type = req.query.type as string;
 

@@ -1,6 +1,6 @@
 import { inject, injectable, named } from "inversify";
 import { IReportGeneratorFactory } from "../domain/IReportGeneratorFactory";
-import { IReportGenerator } from "../domain/IReportGenerator";
+import { IReportGenerator } from "../02_application/common/IReportGenerator";
 @injectable()
 export class ReportGeneratorFactory implements IReportGeneratorFactory {
   map = new Map();
