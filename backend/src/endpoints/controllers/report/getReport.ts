@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { IReportGeneratorFactory } from "../../../domain/IReportGeneratorFactory";
 import { IReportService } from "../../../domain/IReportService";
 import { myContainer } from "../../../inversify.config";
 export async function getReport(req: Request, res: Response): Promise<any> {
@@ -7,7 +6,7 @@ export async function getReport(req: Request, res: Response): Promise<any> {
 
   const reportService = myContainer.get<IReportService>("ReportService");
 
-  let response = reportService.generateReport(type);
+  let report = reportService.generateReport(type);
 
-  return res.status(response.responseCode).send(response.content);
+  return res.status(report.responseCode).send(report.content);
 }

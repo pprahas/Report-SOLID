@@ -12,6 +12,8 @@ export class ReportGeneratorFactory implements IReportGeneratorFactory {
 
   unsupportedGenerator: IReportGenerator;
 
+  // try to inject a collection of ReportGenerator (if supported)
+  // violation of OCP
   constructor(
     @inject("ReportGenerator") @named("pdf") pdfgenerator: IReportGenerator,
     @inject("ReportGenerator")

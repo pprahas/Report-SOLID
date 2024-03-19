@@ -1,5 +1,4 @@
-// rename to ReportResult
-export class ReportResponse {
+export class ReportResult {
   responseCode: number;
   content: string;
 

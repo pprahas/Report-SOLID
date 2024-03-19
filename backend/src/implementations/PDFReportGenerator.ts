@@ -4,6 +4,7 @@ import { IReportGenerator } from "../domain/IReportGenerator";
 export class PDFReportGenerator implements IReportGenerator {
   // constructor() {}
   generate(): string {
+    // return a Report type not string type
     return "pdf file";
   }
   constructor() {}
