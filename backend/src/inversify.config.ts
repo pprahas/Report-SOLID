@@ -7,6 +7,7 @@ import { IReportGeneratorFactory } from "./02_application/common/IReportGenerato
 import { IReportService } from "./02_application/Reports/ReportService";
 import { ReportGeneratorFactory } from "./03_infrastructure/ReportGeneratorFactory";
 import { ReportService } from "./02_application/Reports/ReportService";
+import { registerDependecies as appDependecy } from "./02_application/application.inversify.config";
 
 const myContainer = new Container();
 myContainer
@@ -26,6 +27,6 @@ myContainer
   .bind<IReportGeneratorFactory>("ReportGeneratorFactory")
   .to(ReportGeneratorFactory);
 
-myContainer.bind<IReportService>("ReportService").to(ReportService);
+appDependecy(myContainer);
 
 export { myContainer };
