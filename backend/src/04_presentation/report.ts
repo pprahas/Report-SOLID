@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getReport } from "../../controllers/report/getReport";
+import { getReport } from "./endpoints/getReport";
 
 class ReportRoutes {
   router = Router();

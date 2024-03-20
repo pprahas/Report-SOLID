@@ -1,9 +1,9 @@
 export class Report {
-  responseCode: number;
   content: string;
+  id: number;
 
-  constructor(responseCode: number, content: string) {
-    this.responseCode = responseCode;
+  constructor(id: number, content: string) {
     this.content = content;
+    this.id = id;
   }
 }

@@ -1,9 +1,9 @@
 import { IReportGeneratorFactory } from "../common/IReportGeneratorFactory";
 import { inject, injectable } from "inversify";
-import { ReportResponse } from "../../models/ReportResponse";
+import { Report } from "../../01_domain/Entities/Report";
 
 export interface IReportService {
-  generateReport(value: string): ReportResponse;
+  generateReport(value: string): Report;
 }
 @injectable()
 // check for unsupported type here
@@ -16,13 +16,17 @@ export class ReportService implements IReportService {
     this.reportFactory = reportFactory;
   }
 
-  generateReport(value: string): ReportResponse {
+  generateReport(value: string): Report {
     var report = this.reportFactory.create(value);
 
+    return report.generate();
+
+    // return "wef";
+
     //move to controller
-    if (report.type == "unsupported") {
-      return new ReportResponse(404, report.generate());
-    }
-    return new ReportResponse(200, report.generate());
+    // if (report.type == "unsupported") {
+    //   return new ReportResponse(404, report.generate());
+    // }
+    // return new ReportResponse(200, report.generate());
   }
 }
