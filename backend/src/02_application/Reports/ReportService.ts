@@ -20,13 +20,5 @@ export class ReportService implements IReportService {
     var report = this.reportFactory.create(value);
 
     return report.generate();
-
-    // return "wef";
-
-    //move to controller
-    // if (report.type == "unsupported") {
-    //   return new ReportResponse(404, report.generate());
-    // }
-    // return new ReportResponse(200, report.generate());
   }
 }

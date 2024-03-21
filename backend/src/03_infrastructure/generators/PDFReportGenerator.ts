@@ -8,5 +8,6 @@ export class PDFReportGenerator implements IReportGenerator {
     // return a Report type not string type
     return new Report(1, "pdf file");
   }
+
   type: string = "pdf";
 }
